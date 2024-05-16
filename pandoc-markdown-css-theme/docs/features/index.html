@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc-markdown-css-theme" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Chuck Garcia" />
+  <title>features</title>
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/skylighting-solarized-theme.css" />
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css" />
+</head>
+<body>
+
+<header>
+<h1 class="title">features</h1>
+<blockquote class="metadata">
+<p class="subtitle">Notes the fundamentals of the GOTO Algorithm</p>
+<p class="author">
+      Chuck Garcia
+  </p>
+<p class="date before-toc"><time datetime="01-30-2024">01-30-2024</time></p>
+</blockquote>
+</header>
+
+<nav id="TOC" role="doc-toc">
+    <a href="..">← Return home</a><br>
+    <strong>Contents</strong><label for="contents">⊕</label>
+  <input type="checkbox" id="contents">
+  <ul>
+  <li><a href="#mmm-begin" id="toc-mmm-begin">mmm begin</a></li>
+  </ul>
+</nav>
+
+<main>
+<h1 id="mmm-begin">mmm begin</h1>
+<p>In matrix multiplication, there are many ways one might go about implementing an algorithm. At the algorithm abstraction level, any given implementation may not significantly increase or change the computational complexity. However, at the level of hardware, how one orchestrates a matrix multiplication algorithm can significantly alter the runtime, as algorithm implementation strongly corresponds to the amount of hardware utilization.</p>
+<p>We can consider the time it takes to carry out matrix multiplication as a function of the total number of operations and the corresponding latency. More specifically, we can imagine the performance time <span class="math inline">T</span> as a function of <span class="math inline">v</span>, the number of computational operations, <span class="math inline">m</span>, the number of memory operations, and the latency to carry out a memory operation <span class="math inline">\delta</span>: <span class="math inline">T(v, m, \delta) = v + m \times \delta</span>. With this (overly) simplified model of net-performance, it becomes clear that we can optimize runtime via any of the three variables:</p>
+</main>
+
+<footer>
+<p class="signoff">
+  <a href="..">← Return home</a>
+</p>
+</footer>
+<script>
+;(function() {
+  // Non-essential if user has JavaScript off. Just makes checkboxes look nicer.
+  var selector = '.task-list > li > input[type="checkbox"]';
+  var checkboxes = document.querySelectorAll(selector);
+  Array.from(checkboxes).forEach((checkbox) => {
+    var wasChecked = checkbox.checked;
+    checkbox.disabled = false;
+    checkbox.addEventListener('click', (ev) => {ev.target.checked = wasChecked});
+  });
+})();
+</script>
+</body>
+</html>
