@@ -16,10 +16,12 @@ usage() {
 
 src="${1:-}"
 dest="${2:-}"
+tufte="${3:-}"
 if [ "$src" = "" ] || [ "$dest" = "" ]; then
   2>&1 usage
   exit 1
 fi
+
 
 case "$src" in
   -h|--help)
@@ -51,6 +53,21 @@ mkdir -p "$dest_dir"
 
 css_rel_path="$("$realpath" "docs/css/" --relative-to "$dest_dir")"
 
+if [ "$tufte" = "true" ]; then
+pandoc \
+  --katex \
+  --from markdown+tex_math_single_backslash \
+  --filter pandoc-sidenote \
+  --to html5+smart \
+  --template=template \
+  --css="$css_rel_path/theme.css" \
+  --css="$css_rel_path/skylighting-solarized-theme.css" \
+  --toc \
+  --wrap=none \
+  --css="$css_rel_path/tufte.css" \
+  --output "$dest" \
+  "$src"
+else
 pandoc \
   --katex \
   --from markdown+tex_math_single_backslash \
@@ -63,3 +80,4 @@ pandoc \
   --wrap=none \
   --output "$dest" \
   "$src"
+fi

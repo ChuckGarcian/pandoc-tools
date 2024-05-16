@@ -49,6 +49,9 @@ REMOTE := $(USER)@linux.cs.utexas.edu
 # Remote Directory
 RDIR := /u/$(USER)/public_html
 
+# Toggle Tufte Theme
+TUFTE := true
+
 deploy: all remote-clean
 	scp -r docs/* $(REMOTE):$(RDIR) \
 	&& ssh $(REMOTE) 'chmod -R o+r+x $(RDIR)' \
@@ -60,6 +63,6 @@ remote-clean:
 # Generalized rule: how to build a .html file from each .md
 # Note: you will need pandoc 2 or greater for this to work
 docs/%.html: $(SRC_DIRS)/%.md template.html5 Makefile tools/build.sh
-	tools/build.sh "$<" "$@"
+	tools/build.sh "$<" "$@" $(TUFTE)
 
 
