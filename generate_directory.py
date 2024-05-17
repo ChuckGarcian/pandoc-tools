@@ -16,7 +16,7 @@ def contains_any_string(string, substrings):
     return any(substring in string for substring in substrings)
 
 current_path = os.getcwd()
-target_dir = "ut-website-md/writings"
+target_dir = "ut-website-md/Writings"
 parent_folder_path = os.path.dirname(current_path)
 target_folder_path = os.path.join(parent_folder_path, target_dir)
 includes_path = os.path.join(current_path, "includes")

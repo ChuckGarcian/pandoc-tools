@@ -2,7 +2,7 @@ SUBDIR := pandoc-markdown-css-theme
 SRC_DIRS := ../ut-website-md
 MAKE := make -C $(SUBDIR)
 
-DEL_SOURCES := $(shell find $(SRC_DIRS) -type f -name '*_dir.md')
+DEL_SOURCES := $(shell find $(SRC_DIRS) -type f -name 'dir.md')
 
 all: gen_directory
 	$(MAKE) all
