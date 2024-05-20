@@ -13,6 +13,20 @@ def contains_any_string(string, substrings):
     # Check if a string contains any of the given substrings
     return any(substring in string for substring in substrings)
 
+
+
+def parse_file_name (file_path):
+    # Parses the title from the markdown file at the file path 'file_path'
+    title = '0'
+    
+    with open (file_path, 'r') as file: 
+        first_line = file.readline().strip() # should be "---"
+        second_line = file.readline().strip() # Should contain title
+
+        d, title = second_line.split ("title:", 1)
+        title = title.strip()
+    return title.replace('"', '')
+
 def parse_text_file(file_path):
     data = {}
     
@@ -23,8 +37,6 @@ def parse_text_file(file_path):
     current_value = []
     
     for line in lines:
-        
-        print (data)
         
         line = line.strip()
         if ':' in line:
@@ -39,7 +51,6 @@ def parse_text_file(file_path):
     if current_field:
         data[current_field] = current_value
     
-    print (data)
     return data
 
 def write_my_description (root, new_index):
@@ -49,15 +60,12 @@ def write_my_description (root, new_index):
     read_me_path = os.path.join (root, 'readme.md');
     data = parse_text_file (read_me_path)
     
-    long_description = '0';
-    print (data)
-    print (read_me_path)
+    long_description = '';
     try:
         long_description = data['Description-Long']
     except KeyError:
         print("Error: Target directory does not have a readme")
     
-    new_index.write("\n# Description\n")
     new_index.write (long_description)
     new_index.write("\n")
 
@@ -68,8 +76,11 @@ def generate_directory_index(root, dir_names, file_names, ignore_dirs, ignore_fi
     
     with open(new_index_path, 'w') as new_index, open(main_dir_h_path, 'r') as f2:
         # Write the YAML header to the directory index file
+        read_me_path = os.path.join (root, 'readme.md');
+        data = parse_text_file (read_me_path)
+        
         yaml_header = f2.read()
-        yaml_header = yaml_header.replace("[replace]", root_base)
+        yaml_header = yaml_header.replace("[replace]", data['Title'])
         yaml_header = yaml_header.replace("[ret-url]", ret_url)
         new_index.write(yaml_header)
         
@@ -118,7 +129,10 @@ def generate_directory_index(root, dir_names, file_names, ignore_dirs, ignore_fi
                         new_index.write("\n# Files\n")
                         wrote = True
                     filename_without_ext, _ = os.path.splitext(entry)
-                    s = f'- [{filename_without_ext}]({filename_without_ext}.html)\n'
+                    
+                    title =  parse_file_name (os.path.join (root, entry));
+                    
+                    s = f'- [{title}]({filename_without_ext}.html)\n'
                     new_index.write(s)
     
     return '../dir.html'
