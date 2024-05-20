@@ -13,6 +13,54 @@ def contains_any_string(string, substrings):
     # Check if a string contains any of the given substrings
     return any(substring in string for substring in substrings)
 
+def parse_text_file(file_path):
+    data = {}
+    
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
+        
+    current_field = None
+    current_value = []
+    
+    for line in lines:
+        
+        print (data)
+        
+        line = line.strip()
+        if ':' in line:
+            if current_field:
+                data[current_field] = current_value
+            current_field, current_value = line.split(':', 1)
+            current_field = current_field.strip()
+            # current_value = [current_value.strip()]
+        else:
+            current_value = current_value + line.replace("\n", "")
+    
+    if current_field:
+        data[current_field] = current_value
+    
+    print (data)
+    return data
+
+def write_my_description (root, new_index):
+    # Writes the `long description` in the readme file located in this directory 
+    
+    # Get cwd readme path and parse it
+    read_me_path = os.path.join (root, 'readme.md');
+    data = parse_text_file (read_me_path)
+    
+    long_description = '0';
+    print (data)
+    print (read_me_path)
+    try:
+        long_description = data['Description-Long']
+    except KeyError:
+        print("Error: Target directory does not have a readme")
+    
+    new_index.write("\n# Description\n")
+    new_index.write (long_description)
+    new_index.write("\n")
+
 def generate_directory_index(root, dir_names, file_names, ignore_dirs, ignore_file_patterns, ret_url):
     # Generate the directory index for a given directory
     root_base = os.path.basename(root)
@@ -25,16 +73,37 @@ def generate_directory_index(root, dir_names, file_names, ignore_dirs, ignore_fi
         yaml_header = yaml_header.replace("[ret-url]", ret_url)
         new_index.write(yaml_header)
         
+        
+        write_my_description (root, new_index)
+
         if len(dir_names) > 1:
             # Write the subdirectories section to the directory index file
             new_index.write("\n# Subdirectories\n")
+            dir_names.sort()
+            
             for dir_base in dir_names:
                 dir_path = os.path.join(root, dir_base)
                 readme_path = os.path.join(dir_path, 'readme.md')
                 if file_exists(readme_path):
                     print(f'Subdirectory Path: {dir_path}')
                     with open(readme_path, 'r') as readme:
-                        s = f'- [{dir_base}]({dir_base}/dir.html): {readme.read()}\n'
+                        print(readme_path)
+                        data = parse_text_file(readme_path)
+                        print (f'dir_base:{dir_base}')
+                        title = dir_base;
+                        description = readme.read();
+                        try: 
+                            title = data['Title']
+                            description = data['Description']
+                        except KeyError:
+                            print("Error: Target directory does not have a readme")
+                        # include = data['Include']
+
+                        # print(f"Title: {title}")
+                        # print(f"Description: {description}")
+                        # print(f"Include:\n{include}")
+                        # print ("FINISH\n\n")
+                        s = f'- [{title}]({dir_base}/dir.html): {description}\n'
                         new_index.write(s)
                 else:
                     ignore_dirs.append(dir_base)
@@ -42,6 +111,7 @@ def generate_directory_index(root, dir_names, file_names, ignore_dirs, ignore_fi
         if len(file_names) > 1:
             # Write the files section to the directory index file
             wrote = False
+            file_names.sort()
             for entry in file_names:
                 if not contains_any_string(entry, ignore_file_patterns):
                     if not wrote:

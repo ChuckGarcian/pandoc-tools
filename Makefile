@@ -10,6 +10,9 @@ all: gen_directory
 deploy: gen_directory
 	$(MAKE) deploy
 
+watch: gen_directory
+	$(MAKE) watch
+
 gen_directory:
 	python3 generate_directory.py
 
