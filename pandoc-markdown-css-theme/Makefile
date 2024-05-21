@@ -15,7 +15,8 @@
 
 
 # Local Directory of markdown files
-SRC_DIRS := ../../ut-website-md
+TOP_DIR_NAME := ut-website-md
+SRC_DIRS := ../../$(TOP_DIR_NAME)
 IMG_SRC := $(SRC_DIRS)/img-src
 
 # SRC_DIRS := src
@@ -23,8 +24,15 @@ IMG_SRC := $(SRC_DIRS)/img-src
 SOURCES := $(shell find $(SRC_DIRS) -type f -name '*.md')
 TARGETS := $(patsubst $(SRC_DIRS)/%.md,docs/%.html,$(SOURCES))
 
+ENCRYPT_DIR := docs/Writings/Private
+PSWD := cg
+
 .PHONY: all
 all: docs/.nojekyll $(TARGETS)
+	staticrypt $(ENCRYPT_DIR)/dir.html --short \
+  					 -p $(PSWD) \
+						 -d $(ENCRYPT_DIR) \
+						 -o $(ENCRYPT_DIR)/dir.html
 
 .PHONY: clean
 clean:
@@ -52,7 +60,9 @@ RDIR := /u/$(USER)/public_html
 # Toggle Tufte Theme
 TUFTE := true
 
-deploy: all remote-clean
+deploy: all remote-clean push_remote
+	
+push_remote: 
 	scp -r docs/* $(REMOTE):$(RDIR) \
 	&& ssh $(REMOTE) 'chmod -R o+r+x $(RDIR)' \
   && ssh $(REMOTE) 'ls -l $(RDIR)' 

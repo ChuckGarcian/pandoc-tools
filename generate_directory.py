@@ -87,7 +87,8 @@ def generate_directory_index(root, dir_names, file_names, ignore_dirs, ignore_fi
         
         write_my_description (root, new_index)
 
-        if len(dir_names) > 1:
+        # Directory Non-empty and has subdirectories
+        if len(dir_names) > 0:
             # Write the subdirectories section to the directory index file
             new_index.write("\n# Subdirectories\n")
             dir_names.sort()
@@ -119,7 +120,8 @@ def generate_directory_index(root, dir_names, file_names, ignore_dirs, ignore_fi
                 else:
                     ignore_dirs.append(dir_base)
         
-        if len(file_names) > 1:
+        # Directory is not-empty and has files
+        if len(file_names) > 0:
             # Write the files section to the directory index file
             wrote = False
             file_names.sort()
