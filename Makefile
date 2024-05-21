@@ -4,6 +4,8 @@ MAKE := make -C $(SUBDIR)
 
 DEL_SOURCES := $(shell find $(SRC_DIRS) -type f -name 'dir.md')
 
+default: deploy
+
 all: gen_directory 
 	$(MAKE) all
 	echo "DONE"

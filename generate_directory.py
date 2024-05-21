@@ -22,8 +22,11 @@ def parse_file_name (file_path):
     with open (file_path, 'r') as file: 
         first_line = file.readline().strip() # should be "---"
         second_line = file.readline().strip() # Should contain title
-
-        d, title = second_line.split ("title:", 1)
+        try:
+            d, title = second_line.split ("title:", 1)
+        except ValueError:  
+            print ("Error: File does not have title")
+            
         title = title.strip()
     return title.replace('"', '')
 
@@ -126,6 +129,9 @@ def generate_directory_index(root, dir_names, file_names, ignore_dirs, ignore_fi
             wrote = False
             file_names.sort()
             for entry in file_names:
+                if ( ".md" not in entry): 
+                    continue
+                
                 if not contains_any_string(entry, ignore_file_patterns):
                     if not wrote:
                         new_index.write("\n# Files\n")

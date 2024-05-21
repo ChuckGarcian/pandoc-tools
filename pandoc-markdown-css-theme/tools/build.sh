@@ -62,9 +62,13 @@ pandoc \
   --template=template \
   --css="$css_rel_path/theme.css" \
   --css="$css_rel_path/skylighting-solarized-theme.css" \
+  --css="$css_rel_path/tufte.css" \
+  --css="$css_rel_path/pandoc-tufte.css" \
+  --css="$css_rel_path/pandoc-solarized.css" \
+  --css="$css_rel_path/tufte-extra.css" \
+  --css="$css_rel_path/latex.css" \
   --toc \
   --wrap=none \
-  --css="$css_rel_path/tufte.css" \
   --output "$dest" \
   "$src"
 else

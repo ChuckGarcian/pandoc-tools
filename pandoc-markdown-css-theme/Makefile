@@ -29,8 +29,6 @@ ENCRYPT_DIR := docs/Writings/Private
 PSWD_FILE := ../../$(TOP_DIR_NAME)/pswd_file
 PSWD := $(shell cat $(PSWD_FILE))
 
-
-
 .PHONY: all
 all: docs/.nojekyll $(TARGETS)
 	staticrypt $(ENCRYPT_DIR)/dir.html --short \
