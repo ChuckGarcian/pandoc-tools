@@ -1,5 +1,5 @@
 SUBDIR := pandoc-markdown-css-theme
-SRC_DIRS := ../ut-website-md
+SRC_DIRS := ../ut-website
 MAKE := make -C $(SUBDIR)
 
 DEL_SOURCES := $(shell find $(SRC_DIRS) -type f -name 'dir.md')

@@ -140,7 +140,7 @@ def generate_directory_index(root, dir_names, file_names, ignore_dirs, ignore_fi
     return '../dir.html'
 
 current_path = os.getcwd()
-target_dir = "ut-website-md/Writings"
+target_dir = "ut-website/Writings"
 parent_folder_path = os.path.dirname(current_path)
 target_folder_path = os.path.join(parent_folder_path, target_dir)
 includes_path = os.path.join(current_path, "includes")

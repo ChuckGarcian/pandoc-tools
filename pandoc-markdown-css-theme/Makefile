@@ -15,7 +15,7 @@
 
 
 # Local Directory of markdown files
-TOP_DIR_NAME := ut-website-md
+TOP_DIR_NAME := ut-website
 SRC_DIRS := ../../$(TOP_DIR_NAME)
 IMG_SRC := $(SRC_DIRS)/img-src
 
@@ -24,8 +24,12 @@ IMG_SRC := $(SRC_DIRS)/img-src
 SOURCES := $(shell find $(SRC_DIRS) -type f -name '*.md')
 TARGETS := $(patsubst $(SRC_DIRS)/%.md,docs/%.html,$(SOURCES))
 
+# Private Folder 
 ENCRYPT_DIR := docs/Writings/Private
-PSWD := cg
+PSWD_FILE := ../../$(TOP_DIR_NAME)/pswd_file
+PSWD := $(shell cat $(PSWD_FILE))
+
+
 
 .PHONY: all
 all: docs/.nojekyll $(TARGETS)
